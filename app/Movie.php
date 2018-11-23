@@ -13,7 +13,7 @@ class Movie extends Model
         'year',
     ];
 
-    public function categories()
+    public function genres()
     {
         return $this->belongsToMany(Genre::class);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Genre;
 use App\Movie;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,8 @@ class MoviesTableSeeder extends Seeder
     {
         factory(App\Movie::class, 20)->create();
         foreach (Movie::all() as $key => $value) {
-            $value->imgUrl = $key.'.jpg';
+            $value->imgUrl = $key . '.jpg';
+            $value->genres()->attach(Genre::find(rand(0, Genre::count() - 1)));
             $value->save();
         }
     }
