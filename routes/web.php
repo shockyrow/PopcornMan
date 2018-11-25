@@ -12,11 +12,26 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(Route('movies.index'));
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/movie', 'MovieController');
+Route::group(['middleware' => 'auth', 'prefix' => '/movies'], function () {
+    Route::get('/favorites', 'MovieController@favorites')->name('movies.favorites');
+    Route::post('/{movie}/toggle_like', 'MovieController@toggleLike')->name('movies.toggleLike');
+    Route::post('/{movie}/toggle_dislike', 'MovieController@toggleDislike')->name('movies.toggleDislike');
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => '/comments/{comment}'], function () {
+    Route::post('/toggle_like', 'CommentController@toggleLike')->name('comments.toggleLike');
+    Route::post('/toggle_dislike', 'CommentController@toggleDislike')->name('comments.toggleDislike');
+});
+
+Route::resources([
+    '/movies' => 'MovieController',
+    '/genres' => 'GenreController',
+    '/comments' => 'CommentController',
+]);

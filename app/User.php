@@ -2,13 +2,15 @@
 
 namespace App;
 
+use Cog\Contracts\Love\Liker\Models\Liker as LikerContract;
+use Cog\Laravel\Love\Liker\Models\Traits\Liker;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements LikerContract
 {
-    use Notifiable;
+    use Notifiable, Liker;
 
     /**
      * The attributes that are mass assignable.
@@ -65,5 +67,18 @@ class User extends Authenticatable
     public function hasRole($role)
     {
         return null !== $this->roles()->where('name', $role)->first();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole(Role::ROLE_POPCORN);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

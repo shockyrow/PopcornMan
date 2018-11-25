@@ -10,11 +10,16 @@ class GenreController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $genres = Genre::all();
+        if ($request->input('q')) {
+            $genres = Genre::where('name', 'LIKE', '%' . $request->input('q') . '%')->get();
+        }
+        return view('genres.index', ['genres' => $genres]);
     }
 
     /**
@@ -46,7 +51,11 @@ class GenreController extends Controller
      */
     public function show(Genre $genre)
     {
-        //
+        $movies = $genre->movies;
+        if (request()->input('q')) {
+            $movies = $genre->movies()->where('title', 'LIKE', '%' . request()->input('q') . '%')->get();
+        }
+        return view('genres.show', ['movies' => $movies, 'genre' => $genre]);
     }
 
     /**

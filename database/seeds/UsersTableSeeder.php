@@ -29,5 +29,9 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('secret')
         ]);
         $corn->roles()->attach($role_corn);
+
+        factory(User::class, 100)->create()->each(function(User $user) use ($role_corn) {
+            $user->roles()->attach($role_corn);
+        });
     }
 }
