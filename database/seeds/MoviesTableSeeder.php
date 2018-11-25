@@ -19,10 +19,10 @@ class MoviesTableSeeder extends Seeder
             $value->imgUrl = $key . '.jpg';
             $value->genres()->attach(Genre::find(rand(0, Genre::count() - 1)));
             $value->save();
-            for ($i = 1; $i <= 50; $i++) {
-                $rnd = rand(1, 5);
-                if ($rnd == 5) {
-                    $value->likeBy(rand(1, User::count()));
+            for ($i = 1; $i <= 100; $i++) {
+                $rnd = rand(1, 3);
+                if ($rnd == 3) {
+                    $value->likeBy($i);
                 } else if ($rnd == 1) {
                     $value->dislikeBy($i);
                 }

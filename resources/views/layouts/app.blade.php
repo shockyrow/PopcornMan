@@ -18,12 +18,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/db2baedf75.css">
+
 </head>
 <body>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('img/logo.png') }}" width="30" height="30" class="d-inline-block align-bottom" alt="">
                 {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

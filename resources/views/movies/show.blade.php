@@ -4,8 +4,26 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-5 col-md-4 col-lg-3 my-2">
-                <div class="card shadow">
+                <div class="card shadow position-relative">
                     <img src="{{ asset('img/posters/'.$movie->imgUrl) }}" class="rounded-top" width="100%"/>
+
+                    @auth
+                        <form method="POST">
+                            @csrf
+
+                            <button type="submit" formaction="{{ route('movies.toggleDislike', $movie->id) }}"
+                                    class="bg-transparent border-0 p-0 position-absolute" style="top: 16px; left: 16px;">
+                                <i class="fa fa-2x text-white {{ $movie->isDislikedBy() ? 'fa-thumbs-down text-danger' : 'fa-thumbs-o-down' }}" style="text-shadow: 0 0 8px gray;">
+                                </i>
+                            </button>
+
+                            <button type="submit" formaction="{{ route('movies.toggleLike', $movie->id) }}"
+                                    class="bg-transparent border-0 p-0 position-absolute" style="top: 16px; right: 16px;">
+                                <i class="fa fa-2x text-white {{ $movie->isLikedBy() ? 'fa-heart text-danger' : 'fa-heart-o' }}" style="text-shadow: 0 0 8px gray;">
+                                </i>
+                            </button>
+                        </form>
+                    @endauth
 
                     <div class="card-footer shadow-sm">
                         <div>
@@ -46,36 +64,6 @@
                                 @endforelse
                             </span>
                         </div>
-                        @auth
-                            <form class="mt-3" method="POST">
-                                @csrf
-
-                                <div class="btn-group w-100 shadow">
-                                    @if($movie->isLikedBy())
-                                        <button type="submit" formaction="{{ route('movies.toggleLike', $movie->id) }}"
-                                                class="col btn btn-success">
-                                            Liked
-                                        </button>
-                                    @else
-                                        <button type="submit" formaction="{{ route('movies.toggleLike', $movie->id) }}"
-                                                class="col btn btn-light">
-                                            Like
-                                        </button>
-                                    @endif
-                                    @if($movie->isDislikedBy())
-                                        <button type="submit" formaction="{{ route('movies.toggleDislike', $movie->id) }}"
-                                                class="col btn btn-danger">
-                                            Disliked
-                                        </button>
-                                    @else
-                                        <button type="submit" formaction="{{ route('movies.toggleDislike', $movie->id) }}"
-                                                class="col btn btn-light">
-                                            Dislike
-                                        </button>
-                                    @endif
-                                </div>
-                            </form>
-                        @endauth
                     </div>
                 </div>
             </div>
