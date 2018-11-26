@@ -18,11 +18,15 @@ class MovieController extends Controller
      */
     public function index(Request $request)
     {
-        $movies = Movie::all();
+        $movies = Movie::where('title', '!=', '');
         if ($request->input('q')) {
-            $movies = Movie::where('title', 'LIKE', '%' . $request->input('q') . '%')->get();
+            $movies = Movie::where('title', 'LIKE', '%' . $request->input('q') . '%');
         }
-        return view('movies.index', ['movies' => $movies]);
+
+        return view('movies.list', [
+            'list' => $movies->pluck('title'),
+            'movies' => $movies->paginate(env('PEGINATION_SIZE', 4)),
+        ]);
     }
 
     /**
@@ -31,13 +35,36 @@ class MovieController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function favorites(Request $request)
+    public function loved(Request $request)
     {
-        $movies = Movie::whereLikedBy()->get();
+        $movies = Movie::whereLikedBy();
         if ($request->input('q')) {
-            $movies = Movie::whereLikedBy(Auth::user()->id)->where('title', 'LIKE', '%' . $request->input('q') . '%')->get();
+            $movies = Movie::whereLikedBy()->where('title', 'LIKE', '%' . $request->input('q') . '%');
         }
-        return view('movies.favorites', ['movies' => $movies]);
+
+        return view('movies.list', [
+            'list' => $movies->pluck('title'),
+            'movies' => $movies->paginate(env('PEGINATION_SIZE', 4)),
+        ]);
+    }
+
+    /**
+     * Display a listing of the hated resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function hated(Request $request)
+    {
+        $movies = Movie::whereDislikedBy();
+        if ($request->input('q')) {
+            $movies = Movie::whereDislikedBy()->where('title', 'LIKE', '%' . $request->input('q') . '%');
+        }
+
+        return view('movies.list', [
+            'list' => $movies->pluck('title'),
+            'movies' => $movies->paginate(env('PEGINATION_SIZE', 4)),
+        ]);
     }
 
     /**

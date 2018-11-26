@@ -51,11 +51,15 @@ class GenreController extends Controller
      */
     public function show(Genre $genre)
     {
-        $movies = $genre->movies;
+        $movies = $genre->movies();
         if (request()->input('q')) {
-            $movies = $genre->movies()->where('title', 'LIKE', '%' . request()->input('q') . '%')->get();
+            $movies = $genre->movies()->where('title', 'LIKE', '%' . request()->input('q') . '%');
         }
-        return view('genres.show', ['movies' => $movies, 'genre' => $genre]);
+
+        return view('movies.list', [
+            'list' => $genre->movies()->pluck('title'),
+            'movies' => $movies->paginate(env('PEGINATION_SIZE', 4)),
+        ]);
     }
 
     /**
