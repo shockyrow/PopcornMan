@@ -18,7 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/db2baedf75.css">
+    {{--<link rel="stylesheet" href="https://use.fontawesome.com/db2baedf75.css">--}}
 
 </head>
 <body>

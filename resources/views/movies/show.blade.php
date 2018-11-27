@@ -13,13 +13,13 @@
 
                             <button type="submit" formaction="{{ route('movies.toggleDislike', $movie->id) }}"
                                     class="bg-transparent border-0 p-0 position-absolute" style="top: 16px; left: 16px;">
-                                <i class="fa fa-2x text-white {{ $movie->isDislikedBy() ? 'fa-thumbs-down text-danger' : 'fa-thumbs-o-down' }}" style="text-shadow: 0 0 8px gray;">
+                                <i class="fa-thumbs-down fa-2x text-white {{ $movie->isDislikedBy() ? 'fas text-danger' : 'far' }}" style="text-shadow: 0 0 8px gray;">
                                 </i>
                             </button>
 
                             <button type="submit" formaction="{{ route('movies.toggleLike', $movie->id) }}"
                                     class="bg-transparent border-0 p-0 position-absolute" style="top: 16px; right: 16px;">
-                                <i class="fa fa-2x text-white {{ $movie->isLikedBy() ? 'fa-heart text-danger' : 'fa-heart-o' }}" style="text-shadow: 0 0 8px gray;">
+                                <i class="fa-heart fa-2x text-white {{ $movie->isLikedBy() ? 'fas text-danger' : 'far' }}" style="text-shadow: 0 0 8px gray;">
                                 </i>
                             </button>
                         </form>
@@ -133,30 +133,38 @@
                                         <form class="float-right" method="POST">
                                             @csrf
 
-                                            <div class="btn-group btn-group-sm">
+                                            <div class="btn-group btn-group-sm border rounded shadow-sm">
                                                 <button type="submit"
                                                         formaction="{{ route('comments.toggleDislike', $comment->id) }}"
-                                                        class="btn btn-danger py-0">
-                                                    -
+                                                        class="btn py-0 {{ $comment->isDislikedBy() ? 'btn-danger' : 'btn-light' }}">
+                                                    <i class="fas fa-times">
+                                                    </i>
                                                 </button>
                                                 <span class="btn btn-light py-0">
                                                     {{ $comment->likesDiffDislikesCount }}
                                                 </span>
                                                 <button type="submit"
                                                         formaction="{{ route('comments.toggleLike', $comment->id) }}"
-                                                        class="btn btn-success py-0">
-                                                    +
+                                                        class="btn py-0 {{ $comment->isLikedBy() ? 'btn-success' : 'btn-light' }}">
+                                                    <i class="fas fa-check">
+                                                    </i>
+                                                </button>
+                                            </div>
+
+                                            <div class="btn-group btn-group-sm border rounded shadow-sm">
+                                                <button type="submit" form="deleteForm" class="btn btn-danger py-0">
+                                                    <i class="fas fa-trash">
+                                                    </i>
                                                 </button>
                                             </div>
                                         </form>
                                         @if(Auth::user()->id == $comment->user->id || Auth::user()->isAdmin())
                                             <form class="float-right"
+                                                  name="deleteForm"
                                                   action="{{ route('comments.destroy', $comment->id) }}"
                                                   method="POST">
                                                 @method('delete')
                                                 @csrf
-                                                <input type="submit" class="btn btn-sm btn-light text-danger py-0 mx-1"
-                                                       value="Delete">
                                             </form>
                                         @endif
                                     @endauth
