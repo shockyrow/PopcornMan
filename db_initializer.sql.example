@@ -1,6 +1,6 @@
-drop schema if exists smart_popcorn_db;
-drop user if exists smart_popcorn;
-create schema smart_popcorn_db;
-create user smart_popcorn@'%' identified by 'secret';
-grant all on smart_popcorn_db.* to smart_popcorn@'%';
+drop schema if exists popcornman_db;
+drop user if exists popcornman;
+create schema popcornman_db;
+create user popcornman@'%' identified by 'secret';
+grant all on popcornman_db.* to popcornman@'%';
 flush privileges;
