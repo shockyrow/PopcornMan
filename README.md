@@ -11,6 +11,7 @@
 7. Run `docker exec -i -t popcornman_app_1 php artisan serve --host 0.0.0.0 --port 8080`. This will run your application on port 8080.
 8. Open http://localhost:8080.
 9. Login using below credentials:
+
     Username: `popcorn@example.com`
     Password: `secret`
 10. Enjoy :)
