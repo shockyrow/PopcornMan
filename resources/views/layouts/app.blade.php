@@ -51,6 +51,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('movies.hated') }}">{{ __('Hated') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('movies.recommended') }}">{{ __('Reccommended') }}</a>
+                        </li>
                     @endauth
                 </ul>
 

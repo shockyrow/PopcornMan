@@ -6,6 +6,7 @@ use App\Genre;
 use App\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
@@ -64,6 +65,16 @@ class MovieController extends Controller
         return view('movies.list', [
             'list' => $movies->pluck('title'),
             'movies' => $movies->paginate(env('PEGINATION_SIZE', 4)),
+        ]);
+    }
+
+    public function recommended(Request $request)
+    {
+        $movies = Movie::inRandomOrder()->take(7)->get()->shuffle();
+        
+        return view('movies.list', [
+            'list' => $movies->pluck('title'),
+            'movies' => new Paginator($movies, env('PEGINATION_SIZE', 4)),
         ]);
     }
 

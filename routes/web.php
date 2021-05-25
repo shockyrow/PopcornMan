@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth', 'prefix' => '/movies'], function () {
     Route::get('/loved', 'MovieController@loved')->name('movies.loved');
     Route::get('/hated', 'MovieController@hated')->name('movies.hated');
+    Route::get('/recommended', 'MovieController@recommended')->name('movies.recommended');
     Route::post('/{movie}/toggle_like', 'MovieController@toggleLike')->name('movies.toggleLike');
     Route::post('/{movie}/toggle_dislike', 'MovieController@toggleDislike')->name('movies.toggleDislike');
 });
