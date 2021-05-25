@@ -10,8 +10,7 @@
 6. Run `docker exec -i -t popcornman_app_1 php artisan migrate:fresh --seed`. This will create database and tables, and fills them with data.
 7. Run `docker exec -i -t popcornman_app_1 php artisan serve --host 0.0.0.0 --port 8080`. This will run your application on port 8080.
 8. Open http://localhost:8080.
-9. Login using below credentials:
-
+9. Login using below credentials:<br>
     Username: `popcorn@example.com`
     Password: `secret`
 10. Enjoy :)
