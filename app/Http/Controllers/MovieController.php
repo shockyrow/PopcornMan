@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Genre;
 use App\Movie;
 use Illuminate\Http\Request;
@@ -71,11 +72,36 @@ class MovieController extends Controller
     public function recommended(Request $request)
     {
         $movies = Movie::inRandomOrder()->take(7)->get()->shuffle();
-        
+
         return view('movies.list', [
             'list' => $movies->pluck('title'),
             'movies' => new Paginator($movies, env('PEGINATION_SIZE', 4)),
         ]);
+    }
+
+    public function getCorrelation(User $u, User $v)
+    {
+        $movies = Movie::whereLikedBy($u)->join(Movie::whereLikedBy($v));
+
+        $sum1 = 0;
+
+        foreach ($movies as $i) {
+            $sum += ($this->r($u, $i) - $this->i($u)) * ($this->r($v, $i) - $this->i($v));
+        }
+
+        $sum2 = 0;
+
+        foreach ($movies as $i) {
+            $sum2 += pow($this->r($u, $i) - $this->i($u), 2);
+        }
+
+        $sum3 = 0;
+
+        foreach ($movies as $i) {
+            $sum3 += pow($this->r($v, $i) - $this->i($v), 2);
+        }
+
+        return $sum1 / sqrt($sum2 * $sum3);
     }
 
     /**
@@ -156,5 +182,15 @@ class MovieController extends Controller
         $movie->toggleDislikeBy();
 
         return redirect()->back();
+    }
+
+    public function r(User $user, Movie $movie)
+    {
+        return 0;
+    }
+
+    public function i(User $user)
+    {
+        return 0;
     }
 }
